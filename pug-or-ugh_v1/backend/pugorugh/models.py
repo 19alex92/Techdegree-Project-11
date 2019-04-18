@@ -25,7 +25,7 @@ class UserDog(models.Model):
 class UserPref(models.Model):
     # This model contains the user's preferences
 
-    user = models.ForeignKey(User, related_name='user_pref')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     age = models.CharField(max_length=255, default='')
     gender = models.CharField(max_length=255, default='')
     size = models.CharField(max_length=255, default='')

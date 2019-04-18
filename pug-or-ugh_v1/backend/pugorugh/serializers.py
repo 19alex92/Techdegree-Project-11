@@ -31,3 +31,13 @@ class DogSerializer(serializers.ModelSerializer):
             'size',
         )
         model = models.Dog
+
+
+class UserPrefSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'age',
+            'gender',
+            'size',
+        )
+        model = models.UserPref
