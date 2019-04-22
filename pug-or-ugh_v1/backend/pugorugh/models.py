@@ -35,6 +35,9 @@ class UserPref(models.Model):
     gender = models.CharField(max_length=10, default='f,m')
     size = models.CharField(max_length=10, default='s,m,l,xl')
 
+    def __str__(self):
+        return f"User: {self.user}"
+
 
 @receiver(post_save, sender=User)
 def create_user_pref(sender, instance, created, **kwargs):
