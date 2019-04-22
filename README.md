@@ -28,7 +28,7 @@ pipenv install
 
 If you need to import dogs, a `data_import` script has been provided.
 
-### Run the server
+## Run the server
 
 ```shell
 python manage.py runserver
