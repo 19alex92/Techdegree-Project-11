@@ -17,18 +17,18 @@ class Dog(models.Model):
 
 
 class UserDog(models.Model):
-    # This model represents a link between a user and a dog
+    '''This model represents a link between a user and a dog'''
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     dog = models.ForeignKey(Dog, on_delete=models.CASCADE)
     status = models.CharField(max_length=255, default='u')
 
     def __str__(self):
-        return f"User: {self.user} Dog: {self.dog} USERDOG Pk: {self.pk}"
+        return f"User: {self.user} Dog: {self.dog}"
 
 
 class UserPref(models.Model):
-    # This model contains the user's preferences
+    '''This model contains the user's preferences'''
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     age = models.CharField(max_length=10, default='b,y,a,s')
@@ -38,7 +38,10 @@ class UserPref(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_pref(sender, instance, created, **kwargs):
-    # Creates UserPref + sets default UserDog status when registered
+    '''
+        Creates UserPref + sets default UserDog status
+        when a User registers to the website
+    '''
     if created:
         UserPref.objects.create(user=instance).save()
         for dog in Dog.objects.all():

@@ -5,7 +5,7 @@ from pugorugh.models import Dog, UserDog, UserPref
 
 
 class TestDogAndUserDogModel(TestCase):
-
+    '''Tests creation of Dog and UserDog model'''
     def setUp(self):
         self.user = User.objects.create(
             first_name='TestUser',
@@ -37,7 +37,7 @@ class TestDogAndUserDogModel(TestCase):
 
 
 class TestUserPrefModel(TestCase):
-
+    '''Tests creation of UserPref model'''
     def setUp(self):
         self.user = User.objects.create(
             first_name='TestUser',

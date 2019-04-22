@@ -1,11 +1,8 @@
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_list_or_404
-from django.http import Http404
 
 from rest_framework import generics, permissions, status
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
-from rest_framework.exceptions import NotFound
 from rest_framework.views import APIView
 
 from . import models
@@ -19,11 +16,17 @@ class UserRegisterView(CreateAPIView):
 
 
 class RetrieveUpdateUserPref(generics.RetrieveUpdateAPIView):
+    '''
+        GET the UserPrefs
+        PUT/Update the UserPrefs
+    '''
     queryset = models.UserPref.objects.all()
     serializer_class = serializers.UserPrefSerializer
 
     def get_object(self):
-        return models.UserPref.objects.filter(user__id__exact=self.request.user.id).first()
+        return models.UserPref.objects.filter(
+            user__id__exact=self.request.user.id
+            ).first()
 
     def put(self, request, *args, **kwargs):
         user_data = self.get_object()
@@ -37,6 +40,7 @@ class RetrieveUpdateUserPref(generics.RetrieveUpdateAPIView):
 
 
 class UpdateDogView(APIView):
+    '''Changes the status of the Dog'''
 
     def get_object(self):
         return models.UserDog.objects.filter(
@@ -52,12 +56,18 @@ class UpdateDogView(APIView):
 
 
 class NextDogView(generics.RetrieveAPIView):
+    '''
+        Gets the current UserPref from the User
+        Filters the dogs by UserPrefs
+        Filters the dogs by the UserDog status
+        Provides one dog after another with the correct pks
+    '''
     queryset = models.Dog.objects.all()
     serializer_class = serializers.DogSerializer
 
     def get_queryset(self):
         user = self.request.user
-        prefs = models.UserPref.objects.get(user=user) # Gets the current UserPref from the User
+        prefs = models.UserPref.objects.get(user=user)
 
         pref_dogs = models.Dog.objects.filter(
             gender__in=prefs.gender.split(','),

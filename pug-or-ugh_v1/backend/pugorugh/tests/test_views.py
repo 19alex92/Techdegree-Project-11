@@ -8,7 +8,7 @@ from pugorugh.views import NextDogView, UpdateDogView, RetrieveUpdateUserPref
 
 
 class TestNextDogView(TestCase):
-
+    '''Tests to do a get request as well as tests for auth'''
     def setUp(self):
         self.factory = APIRequestFactory()
         self.view = NextDogView.as_view()
@@ -36,7 +36,7 @@ class TestNextDogView(TestCase):
 
 
 class TestUpdateDogView(TestCase):
-
+    '''Tests to do a put request as well as tests for auth'''
     def setUp(self):
         self.factory = APIRequestFactory()
         self.view = UpdateDogView.as_view()
@@ -66,7 +66,7 @@ class TestUpdateDogView(TestCase):
 
 
 class TestRetrieveUpdateUserPrefView(TestCase):
-
+    '''Tests to do a get and a put request as well as tests for auth'''
     def setUp(self):
         self.factory = APIRequestFactory()
         self.view = RetrieveUpdateUserPref.as_view()
