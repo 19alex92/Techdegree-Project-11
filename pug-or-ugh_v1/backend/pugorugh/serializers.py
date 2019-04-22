@@ -23,6 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 class DogSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
+            'id',
             'name',
             'image_filename',
             'breed',
@@ -31,6 +32,12 @@ class DogSerializer(serializers.ModelSerializer):
             'size',
         )
         model = models.Dog
+
+
+class UserDogSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('status',)
+        model = models.UserDog
 
 
 class UserPrefSerializer(serializers.ModelSerializer):
