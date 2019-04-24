@@ -118,7 +118,6 @@ class TestRetrieveUpdateUserPrefView(APITestCase):
         self.factory = APIRequestFactory()
         self.view = RetrieveUpdateUserPref.as_view()
         self.user = User.objects.create(username='Testuser')
-        self.user_pref = UserPref.objects.create(user=self.user)
 
     def test_get_user_pref_valid(self):
         request = self.factory.get('user-prefs')
@@ -130,10 +129,13 @@ class TestRetrieveUpdateUserPrefView(APITestCase):
         request = self.factory.get('user-prefs')
         force_authenticate(request, user=self.user)
         response = self.view(request)
+        serializer = UserPrefSerializer(UserPref.objects.get())
         expected_response = {'age': 'b,y,a,s',
                              'gender': 'f,m',
                              'size': 's,m,l,xl'}
-        #  This test fails if one changes the model fields, serializer fiels
+        self.assertEqual(response.data, serializer.data)
+        #  This test fails if one changes the model fields
+        #  or their default values, serializer fiels
         #  and fails if the view isn't functioning properly
         self.assertEqual(response.data, expected_response)
 
@@ -160,7 +162,9 @@ class TestRetrieveUpdateUserPrefView(APITestCase):
         ))
         force_authenticate(request, user=self.user)
         response = self.view(request)
+        serializer = UserPrefSerializer(UserPref.objects.get())
         expected_response = {'age': 'a', 'gender': 'm', 'size': 'l'}
+        self.assertEqual(response.data, serializer.data)
         #  This test fails if one changes the model fields, serializer fiels
         #  and fails if the view isn't functioning properly
         self.assertEqual(response.data, expected_response)
